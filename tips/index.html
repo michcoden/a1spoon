@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세부적인 팁 아카이브 — AI 한 스푼</title>
+<link rel="icon" href="../assets/logo.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap');
+
+  :root{
+    --bg: #FBF6EF;
+    --card: #FFFFFF;
+    --ink: #2E2620;
+    --ink-soft: #6B6154;
+    --muted: #A79A88;
+    --rust: #A5572E;
+    --rust-deep: #7A3F1F;
+    --rust-tint: #F5E4DA;
+    --tan: #F4EADA;
+    --line: #ECE2D2;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: 'Gowun Dodum', -apple-system, sans-serif;
+    color: var(--ink);
+    line-height: 1.75;
+    zoom: 1.25;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  /* ---------- header (메인과 동일) ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(251,246,239,0.92);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 20px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo{ display: flex; align-items: center; }
+  .logo img{ height: 60px; width: auto; display: block; }
+  nav{ display: flex; gap: 22px; }
+  nav a{
+    font-size: 16px;
+    color: var(--ink-soft);
+    padding: 4px 2px;
+    border-bottom: 2px solid transparent;
+  }
+  nav a.active{ color: var(--rust-deep); border-bottom: 2px solid var(--rust); }
+  nav a:hover{ color: var(--rust-deep); border-bottom: 2px solid var(--rust); }
+
+  /* ---------- shell ---------- */
+  main{
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px 72px;
+  }
+
+  /* ---------- page head ---------- */
+  .page-head{
+    text-align: center;
+    padding: 40px 10px 8px;
+  }
+  .page-eyebrow{
+    font-family: 'Jua', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .page-head h1{
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    font-size: 26px;
+    color: var(--rust-deep);
+    margin: 0 0 10px;
+  }
+  .page-head p{
+    margin: 0;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+  .crumb{
+    font-size: 13.5px;
+    color: var(--muted);
+    text-align: center;
+    margin: 10px 0 32px;
+  }
+  .crumb a:hover{ color: var(--rust-deep); }
+
+  /* ---------- archive list (네이버 블로그 스타일) ---------- */
+  .archive-list{
+    background: var(--card);
+    border-radius: 26px;
+    box-shadow: 0 6px 22px rgba(122,63,31,0.08);
+    overflow: hidden;
+  }
+  .archive-row{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--line);
+    transition: background .15s ease;
+  }
+  a.archive-row:hover{ background: var(--rust-tint); }
+  .archive-list .archive-row:last-child{ border-bottom: none; }
+
+  .thumb{
+    flex: none;
+    width: 84px;
+    height: 84px;
+    border-radius: 16px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 140% at 15% 15%, rgba(165,87,46,0.16), transparent 55%),
+      linear-gradient(155deg, var(--tan) 0%, var(--rust-tint) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .thumb img{ height: 34%; width: auto; opacity: 0.82; }
+
+  .archive-text{ min-width: 0; flex: 1; }
+  .archive-meta{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .archive-tag{
+    display: inline-block;
+    font-family: 'Jua', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: var(--rust);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .archive-date{
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .archive-title{
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    font-size: 16.5px;
+    line-height: 1.4;
+    color: var(--rust-deep);
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .archive-desc{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .archive-arrow{
+    flex: none;
+    font-family: 'Jua', sans-serif;
+    font-size: 13px;
+    color: var(--rust);
+    margin-left: 4px;
+  }
+
+  /* 발행 예정 행 */
+  .archive-row.soon{
+    color: var(--muted);
+  }
+  .archive-row.soon .thumb{
+    background: transparent;
+    border: 1.5px dashed var(--line);
+  }
+  .archive-row.soon .thumb::after{
+    content: '·';
+    font-size: 22px;
+    color: var(--muted);
+  }
+  .archive-row.soon .archive-title{
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  .back-home{
+    display: block;
+    text-align: center;
+    margin-top: 36px;
+    font-family: 'Jua', sans-serif;
+    font-size: 15px;
+    color: var(--rust-deep);
+  }
+  .back-home:hover{ color: var(--rust); }
+
+  footer{
+    text-align: center;
+    padding: 40px 20px 24px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 400px){
+    .thumb{ width: 68px; height: 68px; border-radius: 14px; }
+    .archive-row{ padding: 14px 16px; gap: 12px; }
+  }
+</style>
+</head>
+<body id="top">
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="../index.html" aria-label="AI 한 스푼 — 메인으로">
+      <img src="../assets/logo.png" alt="AI 한 스푼">
+    </a>
+    <nav>
+      <a href="../index.html#staff">교직원용</a>
+      <a href="../index.html#student">학생용</a>
+      <a class="active" href="../index.html#tips">세부적인 팁</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="page-eyebrow">ARCHIVE</div>
+    <h1>세부적인 팁 아카이브</h1>
+    <p>지금까지 등록된 세부 팁 글을 모두 모았어요.</p>
+  </div>
+  <div class="crumb"><a href="../index.html">메인</a> · 세부적인 팁</div>
+
+  <div class="archive-list">
+    <div class="archive-row soon">
+      <div class="thumb"></div>
+      <div class="archive-text">
+        <div class="archive-meta">
+          <span class="archive-date">발행 예정</span>
+        </div>
+        <p class="archive-title">첫 팁 글 · 준비 중</p>
+        <p class="archive-desc">프롬프트 작성 팁 등 세부 글이 등록되면 이 자리에 목록이 추가됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <a class="back-home" href="../index.html">← 메인으로 돌아가기</a>
+
+</main>
+
+<footer>[AI 한 스푼] 뉴스레터 · 격주 발행</footer>
+
+</body>
+</html>

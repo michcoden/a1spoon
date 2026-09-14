@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 한 스푼 — AI를 조금 더 쉽게, 한 스푼씩</title>
+<link rel="icon" href="assets/logo.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap');
+
+  :root{
+    --bg: #FBF6EF;
+    --card: #FFFFFF;
+    --ink: #2E2620;
+    --ink-soft: #6B6154;
+    --muted: #A79A88;
+    --rust: #A5572E;
+    --rust-deep: #7A3F1F;
+    --rust-tint: #F5E4DA;
+    --tan: #F4EADA;
+    --sage: #E9F1E3;
+    --sage-deep: #3F6B3F;
+    --blush: #FBEAE1;
+    --blush-deep: #8C4126;
+    --line: #ECE2D2;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    font-family: 'Gowun Dodum', -apple-system, sans-serif;
+    color: var(--ink);
+    line-height: 1.75;
+    zoom: 1.25;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  /* ---------- header ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(251,246,239,0.92);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .header-inner{
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 20px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo{
+    display: flex;
+    align-items: center;
+  }
+  .logo img{
+    height: 60px;
+    width: auto;
+    display: block;
+  }
+  nav{
+    display: flex;
+    gap: 22px;
+  }
+  nav a{
+    font-size: 16px;
+    color: var(--ink-soft);
+    padding: 4px 2px;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover{
+    color: var(--rust-deep);
+    border-bottom: 2px solid var(--rust);
+  }
+
+  /* ---------- shell ---------- */
+  main{
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px 72px;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    text-align: center;
+    padding: 44px 10px 34px;
+  }
+  .hero h1{
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.6;
+    color: var(--rust-deep);
+    margin: 0;
+  }
+
+  /* ---------- card base (matches newsletter cards) ---------- */
+  .card{
+    background: var(--card);
+    border-radius: 26px;
+    box-shadow: 0 6px 22px rgba(122,63,31,0.08);
+    overflow: hidden;
+    transition: box-shadow .18s ease, transform .18s ease;
+  }
+  a.card:hover{
+    box-shadow: 0 10px 28px rgba(122,63,31,0.14);
+    transform: translateY(-2px);
+  }
+
+  /* ---------- section heading ---------- */
+  .section{ margin-top: 54px; }
+  .section-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 0 2px;
+  }
+  .section-head h2{
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    font-size: 21px;
+    color: var(--rust-deep);
+    margin: 0;
+  }
+
+  /* ---------- cover plate (placeholder artwork block) ---------- */
+  .plate{
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background:
+      radial-gradient(120% 140% at 15% 15%, rgba(165,87,46,0.16), transparent 55%),
+      linear-gradient(155deg, var(--tan) 0%, var(--rust-tint) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .plate img{
+    height: 30%;
+    width: auto;
+    opacity: 0.82;
+  }
+  .plate .plate-issue{
+    position: absolute;
+    right: 16px;
+    bottom: 14px;
+    font-family: 'Jua', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--rust-deep);
+    opacity: 0.55;
+  }
+
+  /* ---------- latest ---------- */
+  .latest-label{
+    text-align: center;
+    font-family: 'Jua', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .latest .plate{ aspect-ratio: 16 / 8; }
+  .latest-body{
+    padding: 26px 28px 24px;
+    text-align: center;
+  }
+  .latest-tag{
+    display: inline-block;
+    font-family: 'Jua', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--rust);
+    background: var(--rust-tint);
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .latest-body h3{
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--rust-deep);
+    margin: 0 0 10px;
+  }
+  .latest-body p{
+    margin: 0 0 18px;
+    font-size: 16px;
+    color: var(--ink-soft);
+  }
+  .read-more{
+    font-family: 'Jua', sans-serif;
+    font-size: 15px;
+    color: var(--rust);
+  }
+
+  /* ---------- issue list ---------- */
+  .issue-list{
+    display: grid;
+    gap: 16px;
+  }
+  .issue-card{ display: block; }
+  .issue-body{
+    padding: 18px 22px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .issue-text{ min-width: 0; }
+  .issue-tag{
+    display: inline-block;
+    font-family: 'Jua', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    background: var(--rust);
+    padding: 4px 11px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+  .issue-title{
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--rust-deep);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .issue-arrow{
+    flex: none;
+    font-family: 'Jua', sans-serif;
+    font-size: 15px;
+    color: var(--rust);
+  }
+
+  /* ---------- coming soon card ---------- */
+  .soon{
+    border: 1.5px dashed var(--line);
+    border-radius: 26px;
+    padding: 22px 22px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .soon b{
+    display: block;
+    font-family: 'Jua', sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+
+  /* ---------- view-all link ---------- */
+  .view-all{
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    font-family: 'Jua', sans-serif;
+    font-size: 15px;
+    color: var(--rust-deep);
+  }
+  .view-all:hover{ color: var(--rust); }
+
+  /* ---------- footer ---------- */
+  footer{
+    text-align: center;
+    padding: 40px 20px 24px;
+    font-size: 15px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 400px){
+    .latest-body{ padding: 22px 20px 20px; }
+    .issue-body{ padding: 16px 18px; }
+  }
+</style>
+</head>
+<body id="top">
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html" aria-label="AI 한 스푼 — 메인으로">
+      <img src="assets/logo.png" alt="AI 한 스푼">
+    </a>
+    <nav>
+      <a href="#staff">교직원용</a>
+      <a href="#student">학생용</a>
+      <a href="#tips">세부적인 팁</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <h1>AI를 조금 더 쉽게,<br>한 스푼씩 알아가요.</h1>
+  </div>
+
+  <!-- 최신 뉴스레터 -->
+  <div class="latest-label">LATEST</div>
+  <a class="card latest" href="staff/2/index.html">
+    <div class="plate">
+      <img src="assets/logo.png" alt="">
+      <span class="plate-issue">ISSUE 02</span>
+    </div>
+    <div class="latest-body">
+      <span class="latest-tag">교직원용 · 제2호</span>
+      <h3>AI, 뭘 써야 할까요?</h3>
+      <p>목적에 맞게 골라 쓰는 AI 도구.</p>
+      <span class="read-more">읽어보기 →</span>
+    </div>
+  </a>
+
+  <!-- 교직원용 -->
+  <section class="section" id="staff">
+    <div class="section-head">
+      <h2>교직원용</h2>
+    </div>
+    <div class="issue-list">
+      <a class="card issue-card" href="staff/2/index.html">
+        <div class="plate">
+          <img src="assets/logo.png" alt="">
+          <span class="plate-issue">ISSUE 02</span>
+        </div>
+        <div class="issue-body">
+          <div class="issue-text">
+            <span class="issue-tag">ISSUE 02</span>
+            <p class="issue-title">AI, 뭘 써야 할까요?</p>
+          </div>
+          <span class="issue-arrow">읽기 →</span>
+        </div>
+      </a>
+      <a class="card issue-card" href="staff/1/index.html">
+        <div class="plate">
+          <img src="assets/logo.png" alt="">
+          <span class="plate-issue">ISSUE 01</span>
+        </div>
+        <div class="issue-body">
+          <div class="issue-text">
+            <span class="issue-tag">ISSUE 01</span>
+            <p class="issue-title">AI에게 일을 잘 시키는 법</p>
+          </div>
+          <span class="issue-arrow">읽기 →</span>
+        </div>
+      </a>
+    </div>
+    <a class="view-all" href="staff/index.html">교직원용 전체 보기 →</a>
+  </section>
+
+  <!-- 학생용 -->
+  <section class="section" id="student">
+    <div class="section-head">
+      <h2>학생용</h2>
+    </div>
+    <div class="issue-list">
+      <a class="card issue-card" href="student/1/index.html">
+        <div class="plate">
+          <img src="assets/logo.png" alt="">
+          <span class="plate-issue">ISSUE 01</span>
+        </div>
+        <div class="issue-body">
+          <div class="issue-text">
+            <span class="issue-tag">ISSUE 01</span>
+            <p class="issue-title">AI, 공부를 도와주는 똑똑한 조수로 만나 보세요</p>
+          </div>
+          <span class="issue-arrow">읽기 →</span>
+        </div>
+      </a>
+      <div class="soon">
+        <b>제2호 · 준비 중</b>
+        다음 호가 발행되면 이 자리에 카드가 추가됩니다.
+      </div>
+    </div>
+    <a class="view-all" href="student/index.html">학생용 전체 보기 →</a>
+  </section>
+
+  <!-- 세부적인 팁 -->
+  <section class="section" id="tips">
+    <div class="section-head">
+      <h2>세부적인 팁</h2>
+    </div>
+    <div class="issue-list">
+      <div class="soon">
+        <b>준비 중</b>
+        프롬프트 작성 팁 등 세부 글이 등록되면 이 자리에 카드가 추가됩니다.
+      </div>
+    </div>
+    <a class="view-all" href="tips/index.html">세부적인 팁 전체 보기 →</a>
+  </section>
+
+</main>
+
+<footer>[AI 한 스푼] 뉴스레터 · 격주 발행</footer>
+
+</body>
+</html>
